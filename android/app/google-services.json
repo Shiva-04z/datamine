@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "299616748724",
+    "project_id": "datamine-da51e",
+    "storage_bucket": "datamine-da51e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299616748724:android:bf788a3a6431624afd83e1",
+        "android_client_info": {
+          "package_name": "com.example.datamine"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgObX2nzB-5vzhjvq73N7Oo2M3Us6g7mc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
