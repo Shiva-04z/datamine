@@ -142,6 +142,8 @@ class SVMController extends GetxController {
     List<int> prediction = trainedModel!.predict([features]);
 
     // Display the result
-    predictionResult.value = "Predicted Class: ${prediction[0]}";
+    if(prediction[0]==0.0){
+    predictionResult.value = "Foe";}else  if(prediction[0]==1.0){
+      predictionResult.value = "Friend";}
   }
 }

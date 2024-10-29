@@ -8,7 +8,8 @@ class RandomForestTrainingView extends GetView<RandomForestController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Random Forest Training"),
+        backgroundColor: Colors.black,
+        title: Text("Random Forest Training",style: TextStyle(color: Colors.white),),
       ),
       backgroundColor: Colors.black.withOpacity(0.3),
       body: Stack(children: [
@@ -83,7 +84,7 @@ class RandomForestTrainingView extends GetView<RandomForestController> {
                 ),
               ),
               SizedBox(height: 20),
-              if (controller.isTraining.value) CircularProgressIndicator(),
+              if (controller.isTraining.value)  Center(child: CircularProgressIndicator(strokeWidth: 5,color: Colors.white,)),
               if (controller.trainingMessage.isNotEmpty)
                 Text(
                   controller.trainingMessage.value,

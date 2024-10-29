@@ -97,7 +97,7 @@ class SVMTrainingView extends GetView<SVMController> {
                     const Column(
                       children: [
                         SizedBox(height: 20),
-                        Center(child: CircularProgressIndicator()),
+                        Center(child: CircularProgressIndicator(strokeWidth: 5,color: Colors.white,)),
                         SizedBox(height: 20),
                         Text(
                           "Your Guardian is learning...",
@@ -112,7 +112,7 @@ class SVMTrainingView extends GetView<SVMController> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(controller.trainingMessage.value,
-                          style: const TextStyle(color: Colors.green)),
+                          style: const TextStyle(color: Colors.white)),
                     ),
                   const SizedBox(height: 20),
                   if (!controller.isTraining.value &&

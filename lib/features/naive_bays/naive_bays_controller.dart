@@ -13,6 +13,7 @@ class NaiveBayesController extends GetxController {
   var isTraining = false.obs;
   var trainingMessage = ''.obs;
   var predictionResult = ''.obs;
+  var accuracyResult = ''.obs; // New state variable for accuracy
 
   List<String> featureNames = []; // Store feature names
   NaiveBayesModel? trainedModel; // Instance of Naive Bayes model
@@ -31,6 +32,7 @@ class NaiveBayesController extends GetxController {
     isTraining.value = true;
     trainingMessage.value = "";
     predictionResult.value = "";
+    accuracyResult.value = ""; // Reset accuracy result
 
     try {
       // Download and prepare the dataset from CSV
@@ -51,12 +53,50 @@ class NaiveBayesController extends GetxController {
       await trainNaiveBayesModel(csvData, nFeatures);
       trainingMessage.value = "Model loaded successfully";
 
+      // Calculate and display accuracy
+      await checkAccuracy(csvData);
     } catch (e) {
       trainingMessage.value = "Error during training: ${e.toString()}";
       print("Training error: $e");
     } finally {
       isTraining.value = false;
     }
+  }
+
+  Future<void> checkAccuracy(List<List<dynamic>> csvData) async {
+    if (trainedModel == null) {
+      accuracyResult.value = "Model is not trained.";
+      return;
+    }
+
+    // Parse features and target from CSV data (skip the header)
+    List<double> target = [];
+    List<List<double>> features = [];
+
+    for (var row in csvData.sublist(1)) {
+      if (row.length < 2) continue;
+
+      try {
+        target.add((row[0] as num).toDouble());
+        List<double> featureRow = row.sublist(1).map((e) => (e as num).toDouble()).toList();
+        features.add(featureRow);
+      } catch (e) {
+        print("Error parsing row: $row, error: $e");
+      }
+    }
+
+    // Validate parsed data
+    if (target.isEmpty || features.isEmpty) {
+      accuracyResult.value = "No valid data for accuracy check.";
+      return;
+    }
+
+    // Make predictions on training data
+    List<double> predictedLabels = trainedModel!.predict(features);
+
+    // Calculate accuracy
+    double accuracy = trainedModel!.calculateAccuracy(target, predictedLabels);
+   trainingMessage.value += "\nAccuracy: ${(accuracy * 100).toStringAsFixed(2)}%";
   }
 
   Future<void> trainNaiveBayesModel(List<List<dynamic>> data, int nFeatures) async {
@@ -128,7 +168,10 @@ class NaiveBayesController extends GetxController {
     // Make prediction
     List<double> prediction = trainedModel!.predict([features]);
 
-    predictionResult.value = "Predicted Value: ${prediction[0]}";
-    print("Prediction Result: ${prediction[0]}");
+    if(prediction[0] == 0.0){
+      predictionResult.value = "Foe";
+    } else if(prediction[0] == 1.0){
+      predictionResult.value = "Friend";
+    }
   }
 }

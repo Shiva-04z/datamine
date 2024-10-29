@@ -7,7 +7,8 @@ class DecisionTreeTrainingView extends GetView<DecisionTreeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Decision Tree Training"),
+        backgroundColor: Colors.black,
+        title: Text("Decision Tree Training",style: TextStyle(color: Colors.white),),
       ),
       backgroundColor: Colors.black.withOpacity(0.3),
       body: Stack(children: [
@@ -62,7 +63,7 @@ class DecisionTreeTrainingView extends GetView<DecisionTreeController> {
                 ),
               ),
               SizedBox(height: 20),
-              if (controller.isTraining.value) CircularProgressIndicator(),
+              if (controller.isTraining.value) Center(child: CircularProgressIndicator(strokeWidth: 5,color: Colors.white,)),
               if (controller.trainingMessage.isNotEmpty)
                 Text(
                   controller.trainingMessage.value,

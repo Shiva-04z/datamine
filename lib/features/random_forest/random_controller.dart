@@ -153,7 +153,8 @@ class RandomForestController extends GetxController {
 
     List<int> prediction = trainedModel!.predict([features]);
 
-    predictionResult.value = "Predicted Value: ${prediction[0]}";
-    print("Prediction Result: ${prediction[0]}");
+    if(prediction[0]==0.0){
+      predictionResult.value = "Foe";}else  if(prediction[0]==1.0){
+      predictionResult.value = "Friend";}
   }
 }

@@ -63,7 +63,7 @@ class DecisionTreeController extends GetxController {
       // Calculate accuracy
       double accuracy = _calculateAccuracy(features, target);
       trainingMessage.value =
-      "Model trained successfully with max depth of $maxDepth.\n Accuracy: ${accuracy.toStringAsFixed(2)}%";
+      "Model trained successfully with max depth of $maxDepth.\nAccuracy: ${accuracy.toStringAsFixed(2)}%";
     } catch (e) {
       trainingMessage.value = "Error during training: ${e.toString()}";
       print("Training error: $e");
@@ -111,8 +111,9 @@ class DecisionTreeController extends GetxController {
     List<int> prediction = trainedModel!.predict([features]);
 
     // Display the result
-    predictionResult.value = "Predicted Class: ${prediction[0]}";
-    print("Prediction Result: ${prediction[0]}");
+    if(prediction[0]==0.0){
+      predictionResult.value = "Foe";}else  if(prediction[0]==1.0){
+      predictionResult.value = "Friend";}
   }
 
   double _calculateAccuracy(List<List<double>> features, List<int> target) {

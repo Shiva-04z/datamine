@@ -7,7 +7,8 @@ class PolynomialRegressionTrainingView extends GetView<PolynomialRegressionContr
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Polynomial Regression Training"),
+        backgroundColor: Colors.black,
+        title: Text("Polynomial Regression Training",style: TextStyle(color: Colors.white),),
       ),
       backgroundColor: Colors.black.withOpacity(0.3),
       body: Stack(children: [
@@ -82,7 +83,7 @@ class PolynomialRegressionTrainingView extends GetView<PolynomialRegressionContr
                 ),
               ),
               SizedBox(height: 20),
-              if (controller.isTraining.value) CircularProgressIndicator(),
+              if (controller.isTraining.value)  Center(child: CircularProgressIndicator(strokeWidth: 5,color: Colors.white,)),
               if (controller.trainingMessage.isNotEmpty)
                 Text(
                   controller.trainingMessage.value,

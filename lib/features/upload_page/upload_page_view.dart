@@ -7,7 +7,8 @@ class UploadPageView extends GetView<UploadPageController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Upload Page"),
+          backgroundColor: Colors.black,
+          title: const Text("Upload Page",style: TextStyle(color: Colors.white),),
         ),
         body: Stack(
           children: [

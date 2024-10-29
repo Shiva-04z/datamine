@@ -9,7 +9,8 @@ class LassoRegressionTrainingView extends GetView<LassoRegressionController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("LASSO Regression Training"),
+        backgroundColor: Colors.black,
+        title: Text("LASSO Regression Training",style: TextStyle(color: Colors.white),),
       ),
       backgroundColor: Colors.black.withOpacity(0.3),
       body: Stack(children: [
@@ -84,7 +85,7 @@ class LassoRegressionTrainingView extends GetView<LassoRegressionController> {
                 ),
               ),
               SizedBox(height: 20),
-              if (controller.isTraining.value) CircularProgressIndicator(),
+              if (controller.isTraining.value)  Center(child: CircularProgressIndicator(strokeWidth: 5,color: Colors.white,)),
               if (controller.trainingMessage.isNotEmpty)
                 Text(
                   controller.trainingMessage.value,

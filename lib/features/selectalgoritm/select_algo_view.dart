@@ -11,7 +11,8 @@ class SelectAlgoView extends GetView<SelectAlgoController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Select Algorithm",),
+        backgroundColor: Colors.black,
+        title: const Text("Select Algorithm",style: TextStyle(color: Colors.white),),
       ),
       body: Stack(
         children: [

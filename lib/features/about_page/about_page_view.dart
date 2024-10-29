@@ -8,7 +8,8 @@ class AboutPageView extends GetView<AboutPageController>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(title: Text("About Page"),),
+      appBar: AppBar(backgroundColor: Colors.black,
+        title: Text("About Page",style: TextStyle(color: Colors.white),),),
 
     );
   }
