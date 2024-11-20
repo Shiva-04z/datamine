@@ -52,7 +52,7 @@ class PolynomialRegressionModel {
       for (int j = 1; j <= degree; j++) {
         prediction += coefficients![j] * pow(feature[0], j); // Add weighted polynomial terms
       }
-      predictions.add(prediction);
+      predictions.add(double.parse(prediction.toStringAsFixed(2)));
     }
 
     return predictions;

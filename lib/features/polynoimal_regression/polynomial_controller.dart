@@ -13,11 +13,10 @@ class PolynomialRegressionController extends GetxController {
   var isTraining = false.obs;
   var trainingMessage = ''.obs;
   var predictionResult = ''.obs;
-  var mapeResult = ''.obs; // To store MAPE result
-
+  var mapeResult = ''.obs;
   List<TextEditingController> featureControllers = [];
-  List<String> featureNames = []; // List to store feature names
-  PolynomialRegressionModel? trainedModel; // Polynomial model instance
+  List<String> featureNames = [];
+  PolynomialRegressionModel? trainedModel;
 
   @override
   void onClose() {
@@ -34,13 +33,13 @@ class PolynomialRegressionController extends GetxController {
     isTraining.value = true;
     trainingMessage.value = "";
     predictionResult.value = "";
-    mapeResult.value = ""; // Reset MAPE result
+    mapeResult.value = "";
 
     try {
       // Get user input
       int epochs = int.parse(epochsController.text);
       double learningRate = double.parse(learningRateController.text);
-      int degree = int.parse(degreeController.text); // Degree for polynomial regression
+      int degree = int.parse(degreeController.text);
 
       // Download and prepare the dataset from CSV
       final csvUrl = glb.fileUrl.value;
@@ -52,20 +51,14 @@ class PolynomialRegressionController extends GetxController {
         return;
       }
 
-      // Set feature names from the first row of the CSV
-      featureNames = List<String>.from(csvData[0].sublist(1)); // Assuming first row is headers
 
-      // Train the polynomial regression model
       await trainPolynomialRegressionModel(csvData, epochs, learningRate, degree);
 
-      // Calculate and display MAPE after training
       double mape = _calculateMAPE(csvData);
       mapeResult.value = "MAPE: ${mape.toStringAsFixed(2)}%";
-
       trainingMessage.value = "Model trained successfully with $epochs epochs, learning rate of $learningRate, and polynomial degree of $degree.\n$mapeResult";
     } catch (e) {
       trainingMessage.value = "Error during training: ${e.toString()}";
-      print("Training error: $e");
     } finally {
       isTraining.value = false;
     }
@@ -77,40 +70,30 @@ class PolynomialRegressionController extends GetxController {
 
     // Check if data has enough rows
     if (data.isEmpty || data.length < 2) {
-      print("Insufficient data for training.");
       trainingMessage.value = "No valid data for training.";
       return;
     }
 
-    for (var row in data.sublist(1)) { // Skip header
-      // Ensure the row has the required number of columns
+    for (var row in data.sublist(1)) {
       if (row.length < 2) {
-        print("Invalid row length, skipping row: $row");
+
         continue;
       }
 
       try {
-        // Target is the first column (cast it to a double)
         target.add((row[0] as num).toDouble());
-
-        // Features are the remaining columns (cast to double)
         List<double> featureRow = row.sublist(1).map((e) => (e as num).toDouble()).toList();
         features.add(featureRow);
       } catch (e) {
-        print("Error parsing row: $row, error: $e");
       }
     }
 
-    // Ensure there is valid data for training
     if (target.isEmpty || features.isEmpty) {
-      print("No valid data for training after parsing.");
+
       trainingMessage.value = "No valid data for training.";
       return;
     }
 
-    // Print parsed data for debugging
-    print("Parsed Target: $target");
-    print("Parsed Features: $features");
 
     // Initialize and fit the polynomial regression model
     trainedModel = PolynomialRegressionModel(degree: degree);
@@ -118,7 +101,6 @@ class PolynomialRegressionController extends GetxController {
 
     // Create text controllers for each feature (based on the number of features in the dataset)
     featureControllers = List.generate(features[0].length, (_) => TextEditingController());
-    print("Model training completed.");
   }
 
   double _calculateMAPE(List<List<dynamic>> data) {
@@ -155,7 +137,6 @@ class PolynomialRegressionController extends GetxController {
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      // Decode the CSV content
       final List<List<dynamic>> csvData = const CsvToListConverter().convert(response.body);
       Get.snackbar("CSV Loaded", "Data Set Ready");
       return csvData;
@@ -163,24 +144,16 @@ class PolynomialRegressionController extends GetxController {
       throw Exception("Failed to load CSV data");
     }
   }
-
   Future<void> predict() async {
     if (trainedModel == null) {
       predictionResult.value = "Model is not trained.";
-      print("Prediction error: Model not trained.");
       return;
     }
-
-    // Collect the features from the user input
     List<double> features = featureControllers
         .map((controller) => double.tryParse(controller.text) ?? 0.0)
         .toList();
 
-    // Use the trained model to predict
     List<double> prediction = trainedModel!.predict([features]);
-
-    // Display the result
-    predictionResult.value = "Predicted Value: ${prediction[0]}";
-    print("Prediction Result: ${prediction[0]}");
+    predictionResult.value = "Predicted Value: ${prediction[0].toStringAsFixed(2)}";
   }
 }

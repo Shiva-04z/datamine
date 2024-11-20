@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'home_page_controller.dart'; // Import for the AnimatedSmoothIndicator
+import 'home_page_controller.dart';
 
 class HomePageView extends GetView<HomePageController> {
-
-
   Widget card1(String name, String description, String image) {
     return Card(
       elevation: 20,
@@ -17,39 +15,44 @@ class HomePageView extends GetView<HomePageController> {
         width: 180,
         child: Center(
             child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Image(
-              image: AssetImage("$image"),
-              height: 50,
-              width: 50,
-            ),
-            Text(
-              "$name",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18),
-            ),
-            Text(
-              "$description",
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
-        )),
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Image(
+                  image: AssetImage(image),
+                  height: 50,
+                  width: 50,
+                ),
+                Text(
+                  name,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                ),
+                Text(
+                  description,
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            )),
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
+    // Screen width and height to adjust layout
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final bool isDesktop = screenWidth > 800; // Switch layout on larger screens
+
     return Scaffold(
       body: Stack(children: [
         Container(
           height: double.infinity,
           width: double.infinity,
-          child: Image(
-            image: AssetImage("assets/background/img.png"),
-            fit: BoxFit.fill,
+          child: Image.asset(
+            "assets/background/img.png",
+            fit: BoxFit.cover,
           ),
         ),
         Container(
@@ -58,104 +61,103 @@ class HomePageView extends GetView<HomePageController> {
           color: Colors.black.withOpacity(0.6),
         ),
         SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 30),
-              Text(
-                "Welcome",
-                textAlign: TextAlign.center,
-                style: TextStyle(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: isDesktop ? 40 : 30),
+                Text(
+                  "Welcome",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    fontSize: 28),
-              ),
-              SizedBox(height: 30),
-              // CarouselSlider with onPageChanged to update activeIndex
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 325.0,
-                  autoPlay: true,
-                  enlargeCenterPage: true,
-                  aspectRatio: 16 / 9,
-                  onPageChanged: (index, reason) {
-                    controller.activeIndex.value =
-                        index; // Update active index in controller
-                  },
+                    fontSize: isDesktop ? 32 : 28,
+                  ),
                 ),
-                items: controller.imgList.map((item) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(
-                          color: Colors.amber,
-                        ),
-                        child: Image.asset(item, fit: BoxFit.cover),
-                      );
-                    },
-                  );
-                }).toList(),
-              ),
+                SizedBox(height: isDesktop ? 40 : 30),
+                Container(
+                  height: isDesktop ? 600: 300,
+                  width: isDesktop? 700: double.infinity,
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      height: isDesktop ? 700: 300, // Adjust carousel height
+                      autoPlay: true,
 
-              SizedBox(height: 10),
-
-              // Smooth Page Indicator below the Carousel
-              Obx(() => AnimatedSmoothIndicator(
-                    activeIndex: controller
-                        .activeIndex.value, // Uses activeIndex from controller
-                    count: controller.imgList.length,
-                    effect: WormEffect(
-                      dotHeight: 12,
-                      dotWidth: 12,
-                      activeDotColor: Colors.blue,
-                      dotColor: Colors.grey.shade400,
+                      enlargeCenterPage: true,
+                      aspectRatio: 16 / 9,
+                      onPageChanged: (index, reason) {
+                        controller.activeIndex.value = index;
+                      },
                     ),
-                  )),
-
-              SizedBox(height: 20),
-
-              Text(
-                "Explore our features!",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InkWell(
-                    child: card1("UPLOAD", "Upload a new Dataset",
-                        "assets/icons/upload.png"),
-                    onTap:()=> controller.toUpload(),
+                    items: controller.imgList.map((item) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              color: Colors.amber,
+                            ),
+                            child: Image.asset(item, fit: BoxFit.cover),
+                          );
+                        },
+                      );
+                    }).toList(),
                   ),
-                  InkWell(
-                    child: card1("SELECT", "Select an existing Dataset",
-                        "assets/icons/selection.png"),
-                    onTap:()=> controller.toSelection(),
+                ),
+                SizedBox(height: 10),
+                Obx(() => AnimatedSmoothIndicator(
+                  activeIndex: controller.activeIndex.value,
+                  count: controller.imgList.length,
+                  effect: WormEffect(
+                    dotHeight: 12,
+                    dotWidth: 12,
+                    activeDotColor: Colors.blue,
+                    dotColor: Colors.grey.shade400,
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InkWell(
-                    child: card1("Rules", "View the DataSet Rules",
-                        "assets/icons/selection.png"),
-                    onTap: ()=>controller.toRules(),
-                  ),
-                  InkWell(
+                )),
+                SizedBox(height: 20),
+                Text(
+                  "Explore our features!",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: isDesktop ? 26 : 24,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
+                // Wrap instead of Row for adaptive layout
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 20,
+                  runSpacing: 20,
+                  children: [
+                    InkWell(
+                      child: card1("UPLOAD", "Upload a new Dataset",
+                          "assets/icons/upload.png"),
+                      onTap: () => controller.toUpload(),
+                    ),
+                    InkWell(
+                      child: card1("SELECT", "Select an existing Dataset",
+                          "assets/icons/selection.png"),
+                      onTap: () => controller.toSelection(),
+                    ),
+                    InkWell(
+                      child: card1("Rules", "View the DataSet Rules",
+                          "assets/icons/selection.png"),
+                      onTap: () => controller.toRules(),
+                    ),
+                    InkWell(
                       child: card1("ABOUT", "Know about developer",
                           "assets/icons/about.png"),
-                      onTap: ()=>controller.toAbout())
-                ],
-              ),
-            ],
+                      onTap: () => controller.toAbout(),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 50),
+              ],
+            ),
           ),
         ),
       ]),

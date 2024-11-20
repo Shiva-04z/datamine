@@ -173,5 +173,9 @@ class NaiveBayesController extends GetxController {
     } else if(prediction[0] == 1.0){
       predictionResult.value = "Friend";
     }
+    else
+    {
+      predictionResult.value="${prediction[0]}";
+    }
   }
 }

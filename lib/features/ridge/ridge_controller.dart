@@ -125,7 +125,7 @@ class RidgeRegressionController extends GetxController {
     List<double> features = featureControllers.map((controller) => double.tryParse(controller.text) ?? 0.0).toList();
     List<double> prediction = trainedModel!.predict([features]);
 
-    predictionResult.value = "Predicted Value: ${prediction[0]}";
+    predictionResult.value = "Predicted Value: ${prediction[0].toStringAsFixed(2)}";
     print("Prediction Result: ${prediction[0]}");
   }
 

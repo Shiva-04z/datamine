@@ -149,7 +149,7 @@ class LinearRegressionController extends GetxController {
     List<double> prediction = trainedModel!.predict([features]);
 
     // Display the result
-    predictionResult.value = "Predicted Value: ${prediction[0]}";
+    predictionResult.value = "Predicted Value: ${prediction[0].toStringAsFixed(2)}";
     print("Prediction Result: ${prediction[0]}");
   }
 }

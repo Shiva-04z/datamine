@@ -52,7 +52,7 @@ class LinearRegressionModel {
       for (int j = 0; j < weights!.length; j++) {
         prediction += weights![j] * feature[j]; // Add weighted features
       }
-      predictions.add(prediction);
+      predictions.add(double.parse(prediction.toStringAsFixed(2)));
     }
 
     return predictions;

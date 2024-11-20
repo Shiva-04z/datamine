@@ -114,6 +114,10 @@ class DecisionTreeController extends GetxController {
     if(prediction[0]==0.0){
       predictionResult.value = "Foe";}else  if(prediction[0]==1.0){
       predictionResult.value = "Friend";}
+    else
+      {
+        predictionResult.value="${prediction[0]}";
+      }
   }
 
   double _calculateAccuracy(List<List<double>> features, List<int> target) {
