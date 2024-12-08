@@ -128,10 +128,10 @@ class HomePageView extends GetView<HomePageController> {
                 ),
                 SizedBox(height: 20),
                 // Wrap instead of Row for adaptive layout
-                Wrap(
+                isDesktop? Wrap(
                   alignment: WrapAlignment.center,
-                  spacing: 20,
-                  runSpacing: 20,
+                  spacing: 12,
+                  runSpacing: 12,
                   children: [
                     InkWell(
                       child: card1("UPLOAD", "Upload a new Dataset",
@@ -145,7 +145,7 @@ class HomePageView extends GetView<HomePageController> {
                     ),
                     InkWell(
                       child: card1("Rules", "View the DataSet Rules",
-                          "assets/icons/selection.png"),
+                          "assets/icons/history.png"),
                       onTap: () => controller.toRules(),
                     ),
                     InkWell(
@@ -154,7 +154,38 @@ class HomePageView extends GetView<HomePageController> {
                       onTap: () => controller.toAbout(),
                     ),
                   ],
-                ),
+                ): Column( mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center
+                  ,children: [
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [ InkWell(
+                    child: card1("UPLOAD", "Upload a new Dataset",
+                        "assets/icons/upload.png"),
+                    onTap: () => controller.toUpload(),
+                  ),
+                    InkWell(
+                      child: card1("SELECT", "Select an existing Dataset",
+                          "assets/icons/selection.png"),
+                      onTap: () => controller.toSelection(),
+                    ),],),
+                 SizedBox(height: 20,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [InkWell(
+                      child: card1("Rules", "View the DataSet Rules",
+                          "assets/icons/history.png"),
+                      onTap: () => controller.toRules(),
+                    ),
+                      InkWell(
+                        child: card1("ABOUT", "Know about developer",
+                            "assets/icons/about.png"),
+                        onTap: () => controller.toAbout(),
+                      ),],
+                  )
+
+                ],),
                 SizedBox(height: 50),
               ],
             ),

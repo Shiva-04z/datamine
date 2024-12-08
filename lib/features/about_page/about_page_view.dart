@@ -95,7 +95,7 @@ class AboutPageView extends GetView<AboutPageController> {
                               width: 400,
                               child: Center(
                                   child: Text(
-                                "Made by :\nShivalik Sharma",
+                                "Made by :\nAnanya Jain\nand Shivalik Sharma",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.white,
